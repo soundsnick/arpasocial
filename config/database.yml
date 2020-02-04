@@ -1,0 +1,20 @@
+default: &default
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  adapter: <%= ENV['DB_ADAPTER'] %>
+  encoding: unicode
+  database: <%= ENV['DB_NAME'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  port: <%= ENV['DB_PORT'] %>
+
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: sitecheck_test
+
+production:
+  <<: *default

@@ -1,0 +1,30 @@
+.post data-name=post.title data-id=post.id
+  header.post-header
+    div[uk-lightbox href=profile_path(post.user.username)]
+      a.post-avatar style="background-image: url(#{avatar(post.user)})" href=avatar(post.user)
+    div
+      a.post-author href=profile_path(post.user.username) = post.user.username
+      a.post-published href=post_show_path(post.id) = post.created_at.in_time_zone("Almaty").strftime("%d.%m.%Y %H:%M")
+  .post-body
+    span.post-title = post.title
+    pre.post-content
+      = post.content[0..400]+"..."
+      - if post.content.length > 400
+        a.more href=post_show_path(post.id) = "Read more"
+  - if current_user
+    .post-control style="display: flex"
+      - additional = "active" if post.likes.find_by(user_id: current_user.id)
+      button.like class=additional onclick="like(#{post.id})"
+        .like-icon
+          = fa_icon "thumbs-up"
+        span.post-like  data-id=post.id = "#{post.likes.count}"
+      - if current_user and post.user_id == current_user.id
+        a.like href="/post/#{post.id}/delete" class="delete" data-confirm = 'Are you sure?'
+          .like-icon
+            = fa_icon "trash"
+
+    .comments
+      = render partial: 'layouts/comment_form', locals: {post: post}
+      .comments-body
+        - post.comments.where(comment_id: nil).order(created_at: :desc).each do |comment|
+          = render partial: 'layouts/comment', locals: {comment: comment}

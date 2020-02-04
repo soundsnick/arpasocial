@@ -1,0 +1,15 @@
+.user
+  div[uk-lightbox]
+    a.user-avatar style="background-image: url(#{avatar(user)})" href=avatar(user)
+  .user-body
+    h2.user-title
+      a href=profile_path(user.username) = user.username
+    span.profile_name = "#{user.name} #{user.surname}"
+  - if current_user
+    - if user != current_user
+      - sub_text = "Subscribe"
+      - sub_class = "uk-button-primary"
+      - if current_user.subscriptions.find_by(to_id: user.id)
+        - sub_class = "uk-button-secondary"
+        - sub_text = "Unsubscribe"
+      a.uk-button class=sub_class href=profile_subscribe_path(user.username) = sub_text

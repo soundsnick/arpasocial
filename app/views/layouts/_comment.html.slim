@@ -1,0 +1,12 @@
+.comment onclick="comment_reply(#{comment.id}, '#{comment.user.username}', #{comment.post.id})"
+  span.comment-user = comment.user.username
+  p.comment-content = comment.content
+  span.comment-published
+    - if comment.user == current_user
+      a href=comment_delete_path(comment.id) style="font-size: 12px; margin-right: 10px; display: inline-block;" data-confirm="Are you sure?" = "Delete"
+    = comment.created_at.in_time_zone("Almaty").strftime("%d.%m.%Y %H:%M")
+- if comment.comments.count > 0
+  .comment-tree
+    .comment-tree__body
+      - comment.comments.each do |comment|
+        = render partial: 'layouts/comment', locals: {comment: comment}

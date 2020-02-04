@@ -1,0 +1,17 @@
+.view
+  .container
+    br
+    = form_with url: profiles_path, method: :get, html: {class: 'flex'}, local: true do |f|
+      = f.text_field :query, placeholder: 'Search users...', class: 'uk-input'
+      = f.submit 'Search', class: 'uk-button uk-button-primary'
+    - if @search
+      h2.login-title = "Search: #{params[:query]}"
+      - @search.each do |user|
+        = render partial: 'layouts/user', locals: {user: user}
+      - if @search.empty?
+        .uk-margin
+          .empty style="text-align: center" = "No users found"
+    h2.login-title = "Users"
+    - @users.each do |user|
+      = render partial: 'layouts/user', locals: {user: user}
+    = will_paginate @users

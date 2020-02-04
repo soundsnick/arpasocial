@@ -1,0 +1,9 @@
+DB_USER=yernazar
+DB_PASSWORD=123123
+DB_NAME=arpasocial
+DB_HOST=database
+DB_ADAPTER=postgresql
+DB_PORT=5432
+
+RAILS_ENV=development
+RAILS_MASTER_KEY=1b0b878ac89a6851aac1650bd8d90d02

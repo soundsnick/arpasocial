@@ -1,0 +1,17 @@
+.view
+  .container
+    header.user style="display: flex; align-items: center; margin-top: 20px;"
+      div [uk-lightbox]
+        a.user-avatar style="background-image: url(#{avatar(@user)})" href=avatar(@user)
+      div
+        h1.title = @user.username
+        - if @user != current_user
+          - sub_text = "Subscribe"
+          - sub_class = "uk-button-primary"
+          - if current_user.subscriptions.find_by(to_id: @user.id)
+            - sub_class = "uk-button-secondary"
+            - sub_text = "Unsubscribe"
+          a.uk-button class=sub_class href=profile_subscribe_path(@user.username) = sub_text
+    .feed
+      - @user.posts.each do |post|
+        = render partial: 'layouts/post', locals: {post: post}

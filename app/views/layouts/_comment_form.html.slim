@@ -1,0 +1,9 @@
+.comment-form
+  = form_with url: comment_path(post.id), remote: true do |f|
+    = f.text_area :content, class: 'uk-textarea', placeholder: 'Write comment...', id: nil
+    = f.hidden_field :comment_id, class: 'comment_id', id: nil
+    .reply-block onclick="comment_reply_off(#{post.id})"
+      span.reply = ""
+      .reply-off
+        = fa_icon "times"
+    = f.submit 'Write', class: 'uk-button uk-button-primary'

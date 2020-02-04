@@ -1,0 +1,80 @@
+doctype html
+html
+  head
+    title = "Arpasocial"
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag  'application', medial: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body
+    header.header
+      .container
+        a.logo href="/"
+          img.logo-icon src=asset_path('logo.png')
+          span.logo-title = "Rubyroid"
+        nav.header-nav
+          - if user_signed_in?
+            = link_to 'New publication', new_publication_path, class: 'header-nav__item'
+            = link_to 'Users', profiles_path, class: 'header-nav__item'
+            .uk-inline style="margin-left: 15px"
+              button class="uk-button uk-button-default" style="font-weight: 300;" type="button" = "#{current_user.name} #{current_user.surname}"
+              div uk-dropdown="mode: click" style="text-align: center;"
+                .dropdown-avatar style="background-image: url(#{avatar(current_user)}"
+                hr.uk-divider-icon
+                = link_to 'Profile', profile_path(current_user.username), class: 'dropdown-nav__item'
+                = link_to 'Settings', edit_user_registration_path, class: 'dropdown-nav__item'
+                = link_to 'Logout', destroy_user_session_path, :method => :delete, class: 'dropdown-nav__item'
+          - else
+            = link_to 'Signin', new_user_session_path, class: 'header-nav__item'
+            = link_to 'Signup', new_user_registration_path, class: 'header-nav__item'
+    .container
+      - if notice
+        div.uk-alert-success[uk-alert]
+          a.uk-alert-close[uk-close]
+          h2 = notice
+      - if alert
+        div.uk-alert-warning[uk-alert]
+          a.uk-alert-close[uk-close]
+          h2 = alert
+    = yield
+    = render partial: 'layouts/footer'
+
+    javascript:
+      let like = (post_id) => {
+          Rails.ajax({
+              url: `/post/${post_id}/like`,
+              type: "get",
+              data: "",
+              success: function (data) {
+                  elem = $(`.post-like[data-id=${post_id}]`)
+                  if(data.response == "set"){
+                    elem.html(data.count)
+                    elem.parents('.like').addClass('active')
+                  }
+                  if(data.response == "unset"){
+                    elem.html(data.count)
+                    elem.parents('.like').removeClass('active')
+                  }
+                  if(data.response == "error"){
+                    $(`.post-like[data-id=${post_id}]`).html(data.count)
+                  }
+              },
+              error: function (data) {
+                  console.log(data)
+              }
+          })
+      }
+
+      var comment_reply = (comment_id, username, post_id) => {
+          $(`.post[data-id=${post_id}] .comment-form `).addClass('replying')
+          $(`.post[data-id=${post_id}] .comment-form .comment_id`).val(comment_id)
+          $(`.post[data-id=${post_id}] .comment-form .reply`).html(`Reply to @${username}`)
+      }
+
+      var comment_reply_off = (post_id) => {
+          $(`.post[data-id=${post_id}]  .comment-form`).removeClass('replying')
+          $(`.post[data-id=${post_id}] .comment-form .comment_id`).val('')
+          $(`.post[data-id=${post_id}] .comment-form .reply`).html('')
+      }

@@ -1,0 +1,38 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.login-title{
+  margin-top: 50px;
+  text-align: center;
+}
+.user-avatar{
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  border-radius: 100%;
+  margin-right: 20px;
+}
+.user{
+  display: flex;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+  &-body{
+    flex: 1;
+  }
+  &-title{
+    font-size: 21px;
+    font-weight: 300;
+    margin-bottom: 2px;
+  }
+}
+.profile_name{
+  color: grey;
+  font-weight: 200;
+}
+.flex{
+  display: flex;
+}

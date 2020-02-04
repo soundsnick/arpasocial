@@ -1,0 +1,7 @@
+.new-post
+  h2.publish-title = "New publication"
+  = form_with model: Post.new, url: new_post_path do |f|
+    = f.text_field :title, class: 'uk-input', placeholder: 'Type title'
+    = f.text_area :content, class: 'uk-textarea', placeholder: 'Start writing...'
+    .uk-margin
+      = f.submit 'Publish', class: 'uk-button uk-button-primary'
