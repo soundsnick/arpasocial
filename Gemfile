@@ -19,7 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 # My gems
 gem 'devise'
 gem 'pry'
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 gem 'rails_admin'
 gem 'slim'
 gem 'jquery-rails'
